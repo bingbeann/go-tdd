@@ -1,6 +1,7 @@
 package iteration
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -12,6 +13,12 @@ func TestRepeat(t *testing.T) {
 	if repeated != expected {
 		t.Errorf("expected %q but got %q", expected, repeated)
 	}
+}
+
+func ExampleRepeat() {
+	repeated := Repeat("a", 5)
+	fmt.Println(repeated)
+	// Output: aaaaa
 }
 
 func BenchmarkRepeatConcat(b *testing.B) {
