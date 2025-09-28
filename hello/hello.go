@@ -9,8 +9,10 @@ func main() {
 const (
 	englishHelloPrefix = "Hello, "
 	spanishHelloPrefix = "Hola, "
+	frenchHelloPrefix  = "Bonjour, "
 
 	languageSpanish = "Spanish"
+	languageFrench  = "French"
 )
 
 func Hello(name, language string) string {
@@ -18,13 +20,19 @@ func Hello(name, language string) string {
 		name = "world"
 	}
 
-	var prefix string
+	prefix := getGreetingPrefix(language)
+
+	return prefix + name
+}
+
+func getGreetingPrefix(language string) (prefix string) {
 	switch language {
 	case languageSpanish:
 		prefix = spanishHelloPrefix
+	case languageFrench:
+		prefix = frenchHelloPrefix
 	default:
 		prefix = englishHelloPrefix
 	}
-
-	return prefix + name
+	return
 }
