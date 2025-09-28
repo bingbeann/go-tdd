@@ -17,12 +17,25 @@ func TestSum(t *testing.T) {
 }
 
 func TestSumAllTails(t *testing.T) {
-	got := SumAllTails([]int{1, 2}, []int{1, 2, 3})
-	want := []int{2, 5}
-
-	if !slices.Equal(got, want) {
-		t.Errorf("got '%d' want '%d'", got, want)
+	checkSums := func(t testing.TB, got, want []int) {
+		if !slices.Equal(got, want) {
+			t.Errorf("got '%d' want '%d'", got, want)
+		}
 	}
+
+	t.Run("sum some slices", func(t *testing.T) {
+		got := SumAllTails([]int{1, 2}, []int{1, 2, 3})
+		want := []int{2, 5}
+
+		checkSums(t, got, want)
+	})
+
+	t.Run("safely sum empty slices", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{1, 2, 3})
+		want := []int{0, 5}
+
+		checkSums(t, got, want)
+	})
 }
 
 func BenchmarkSliceAllocZero(b *testing.B) {
