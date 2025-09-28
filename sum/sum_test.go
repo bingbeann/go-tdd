@@ -26,3 +26,36 @@ func TestSumAll(t *testing.T) {
 		t.Errorf("got '%d' want '%d'", got, want)
 	}
 }
+
+func BenchmarkSliceAllocZero(b *testing.B) {
+	for b.Loop() {
+		s := make([]int, 0)
+		for range 10 {
+			s = append(s, 1)
+		}
+
+		_ = s
+	}
+}
+
+func BenchmarkSliceAllocRequired(b *testing.B) {
+	for b.Loop() {
+		s := make([]int, 10)
+		for i := range 10 {
+			s[i] = 1
+		}
+
+		_ = s
+	}
+}
+
+func BenchmarkSliceAllocZeroTellRequired(b *testing.B) {
+	for b.Loop() {
+		s := make([]int, 0, 10)
+		for range 10 {
+			s = append(s, 1)
+		}
+
+		_ = s
+	}
+}
