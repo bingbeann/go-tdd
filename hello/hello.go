@@ -2,10 +2,6 @@ package hello
 
 import "fmt"
 
-func main() {
-	fmt.Println(Hello("world", ""))
-}
-
 var greetingPrefix = map[string]string{
 	"English": "Hello",
 	"Spanish": "Hola",
