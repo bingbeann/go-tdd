@@ -1,10 +1,13 @@
 package iteration
 
+import "strings"
+
 func Repeat(s string, n int) string {
-	repeated := ""
+	var sb strings.Builder
+
 	for range n {
-		repeated += s
+		sb.WriteString(s)
 	}
 
-	return repeated
+	return sb.String()
 }
