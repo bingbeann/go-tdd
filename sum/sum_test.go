@@ -16,11 +16,9 @@ func TestSum(t *testing.T) {
 	}
 }
 
-func TestSumAll(t *testing.T) {
-	a := []int{1, 2}
-	b := []int{1, 2, 3}
-	got := SumAll(a, b)
-	want := []int{3, 6}
+func TestSumAllTails(t *testing.T) {
+	got := SumAllTails([]int{1, 2}, []int{1, 2, 3})
+	want := []int{2, 5}
 
 	if !slices.Equal(got, want) {
 		t.Errorf("got '%d' want '%d'", got, want)
