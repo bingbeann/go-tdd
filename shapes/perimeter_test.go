@@ -20,6 +20,6 @@ func assertFloat(t testing.TB, want, got float64) {
 	t.Helper()
 
 	if got != want {
-		t.Errorf("want %.2f but got %.2f", want, got)
+		t.Errorf("want %g but got %g", want, got)
 	}
 }
