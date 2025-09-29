@@ -18,12 +18,24 @@ func TestArea(t *testing.T) {
 		want  float64
 	}{
 		{
-			shape: Rectangle{12.0, 6.0},
-			want:  72.0,
+			shape: Rectangle{
+				Height: 12.0,
+				Width:  6.0,
+			},
+			want: 72.0,
 		},
 		{
-			shape: Circle{10.0},
-			want:  314.1592653589793,
+			shape: Circle{
+				Radius: 10.0,
+			},
+			want: 314.1592653589793,
+		},
+		{
+			shape: Triangle{
+				Base:   12,
+				Height: 6,
+			},
+			want: 36.0,
 		},
 	}
 
