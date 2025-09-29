@@ -1,4 +1,4 @@
-package geometry
+package shapes
 
 type Rectangle struct {
 	Height float64
