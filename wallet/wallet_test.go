@@ -19,7 +19,7 @@ func TestWallet(t *testing.T) {
 		t.Helper()
 
 		if got == nil {
-			t.Errorf("expected error but received none")
+			t.Fatal("expected error but received none")
 		}
 
 		if got.Error() != want {
@@ -31,7 +31,7 @@ func TestWallet(t *testing.T) {
 		t.Helper()
 
 		if err != nil {
-			t.Errorf("expected error but received none")
+			t.Fatal("expected error but received none")
 		}
 	}
 
