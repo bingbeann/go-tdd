@@ -29,6 +29,14 @@ func (s *SpyCountdownOperations) Write(p []byte) (n int, err error) {
 	return len(p), nil
 }
 
+type SpyTime struct {
+	duration time.Duration
+}
+
+func (s *SpyTime) Sleep(d time.Duration) {
+	s.duration += d
+}
+
 func TestCountdown(t *testing.T) {
 	t.Run("print 3 to Go!", func(t *testing.T) {
 		buffer := &bytes.Buffer{}
@@ -67,6 +75,23 @@ func TestCountdown(t *testing.T) {
 		}
 
 		if !slices.Equal(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
+	})
+
+	t.Run("sleep for total 3 seconds", func(t *testing.T) {
+		buffer := &bytes.Buffer{}
+		spyTime := &SpyTime{}
+
+		err := Countdown(buffer, 3, spyTime)
+		if err != nil {
+			t.Fatalf("failed to countdown: %v", err)
+		}
+
+		got := spyTime.duration
+		want := 3 * time.Second
+
+		if got != want {
 			t.Errorf("got %v want %v", got, want)
 		}
 	})
