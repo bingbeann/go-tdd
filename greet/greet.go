@@ -1,9 +1,10 @@
 package greet
 
 import (
+	"fmt"
 	"io"
 )
 
 func Greet(w io.Writer, name string) {
-	w.Write([]byte("Hello, " + name))
+	fmt.Fprintf(w, "Hello, %s", name)
 }
