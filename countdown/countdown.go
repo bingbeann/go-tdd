@@ -7,7 +7,7 @@ import (
 
 func Countdown(w io.Writer, n int) error {
 	for i := n; i >= 1; i-- {
-		if _, err := fmt.Fprintf(w, "%d\n", i); err != nil {
+		if _, err := fmt.Fprintln(w, i); err != nil {
 			return err
 		}
 	}
