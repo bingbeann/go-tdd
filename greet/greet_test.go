@@ -7,7 +7,11 @@ import (
 
 func TestGreet(t *testing.T) {
 	buffer := bytes.Buffer{}
-	Greet(&buffer, "Chris")
+	err := Greet(&buffer, "Chris")
+
+	if err != nil {
+		t.Fatalf("failed to greet: %v", err)
+	}
 
 	got := buffer.String()
 	want := "Hello, Chris"
