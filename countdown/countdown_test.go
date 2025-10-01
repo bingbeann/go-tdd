@@ -8,7 +8,10 @@ import (
 func TestCountdown(t *testing.T) {
 	buffer := &bytes.Buffer{}
 
-	Countdown(buffer)
+	err := Countdown(buffer)
+	if err != nil {
+		t.Fatalf("failed to countdown: %v", err)
+	}
 
 	got := buffer.String()
 	want := "3"
