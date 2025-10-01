@@ -38,14 +38,20 @@ func (s *SpyTime) Sleep(d time.Duration) {
 }
 
 func TestCountdown(t *testing.T) {
+	requireNoError := func(tb testing.TB, err error) {
+		tb.Helper()
+
+		if err != nil {
+			tb.Fatalf("expected no error but got %q", err)
+		}
+	}
+
 	t.Run("print 3 to Go!", func(t *testing.T) {
 		buffer := &bytes.Buffer{}
 		stubSleeper := &StubSleeper{}
 
 		err := Countdown(buffer, 3, stubSleeper)
-		if err != nil {
-			t.Fatalf("failed to countdown: %v", err)
-		}
+		requireNoError(t, err)
 
 		got := buffer.String()
 		want := "3\n2\n1\nGo!"
@@ -59,9 +65,7 @@ func TestCountdown(t *testing.T) {
 		spyCountdownOperations := &SpyCountdownOperations{}
 
 		err := Countdown(spyCountdownOperations, 3, spyCountdownOperations)
-		if err != nil {
-			t.Fatalf("failed to countdown: %v", err)
-		}
+		requireNoError(t, err)
 
 		got := spyCountdownOperations.Calls
 		want := []string{
@@ -84,9 +88,7 @@ func TestCountdown(t *testing.T) {
 		spyTime := &SpyTime{}
 
 		err := Countdown(buffer, 3, spyTime)
-		if err != nil {
-			t.Fatalf("failed to countdown: %v", err)
-		}
+		requireNoError(t, err)
 
 		got := spyTime.duration
 		want := 3 * time.Second
