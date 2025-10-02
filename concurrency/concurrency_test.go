@@ -45,3 +45,14 @@ func BenchmarkCheckWebsites(b *testing.B) {
 		CheckWebsites(slowStubWebsiteChecker, urls)
 	}
 }
+
+func BenchmarkCheckWebsitesConcurrent(b *testing.B) {
+	urls := make([]string, 100)
+	for i := range len(urls) {
+		urls[i] = "a url"
+	}
+
+	for b.Loop() {
+		CheckWebsitesConcurrent(slowStubWebsiteChecker, urls)
+	}
+}

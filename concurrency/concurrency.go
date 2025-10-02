@@ -9,6 +9,16 @@ type result struct {
 
 func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 	results := make(map[string]bool)
+
+	for _, url := range urls {
+		results[url] = wc(url)
+	}
+
+	return results
+}
+
+func CheckWebsitesConcurrent(wc WebsiteChecker, urls []string) map[string]bool {
+	results := make(map[string]bool)
 	resultChannel := make(chan result)
 
 	for _, url := range urls {
