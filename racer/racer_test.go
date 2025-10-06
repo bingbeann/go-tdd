@@ -35,13 +35,10 @@ func TestRacer(t *testing.T) {
 	})
 
 	t.Run("timeout after 10 seconds", func(t *testing.T) {
-		fastServer := mockServer(11 * time.Second)
-		slowServer := mockServer(12 * time.Second)
+		server := mockServer(5 * time.Millisecond)
+		defer server.Close()
 
-		defer fastServer.Close()
-		defer slowServer.Close()
-
-		_, err := Racer(slowServer.URL, fastServer.URL)
+		_, err := ConfigurableRacer(server.URL, server.URL, 1*time.Millisecond)
 
 		if err == nil {
 			t.Fatal("expected one error but received none")
