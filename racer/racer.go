@@ -2,25 +2,25 @@ package racer
 
 import (
 	"net/http"
-	"time"
 )
 
 func Racer(a, b string) string {
-	startA := time.Now()
-	if _, err := http.Get(a); err != nil {
-		panic(err)
-	}
-	timeA := time.Since(startA)
-
-	startB := time.Now()
-	if _, err := http.Get(b); err != nil {
-		panic(err)
-	}
-	timeB := time.Since(startB)
-
-	if timeA < timeB {
+	select {
+	case <-ping(a):
 		return a
+	case <-ping(b):
+		return b
 	}
+}
 
-	return b
+func ping(url string) chan struct{} {
+	ch := make(chan struct{})
+	go func() {
+		if _, err := http.Get(url); err != nil {
+			panic(err)
+		}
+
+		close(ch)
+	}()
+	return ch
 }
