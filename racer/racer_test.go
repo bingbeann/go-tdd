@@ -15,16 +15,36 @@ func TestRacer(t *testing.T) {
 		}))
 	}
 
-	fastServer := mockServer(1 * time.Millisecond)
-	slowServer := mockServer(2 * time.Millisecond)
+	t.Run("get fastest url", func(t *testing.T) {
+		fastServer := mockServer(1 * time.Millisecond)
+		slowServer := mockServer(2 * time.Millisecond)
 
-	defer fastServer.Close()
-	defer slowServer.Close()
+		defer fastServer.Close()
+		defer slowServer.Close()
 
-	got := Racer(slowServer.URL, fastServer.URL)
-	want := fastServer.URL
+		got, err := Racer(slowServer.URL, fastServer.URL)
+		want := fastServer.URL
 
-	if got != want {
-		t.Errorf("want %q but got %q", want, got)
-	}
+		if err != nil {
+			t.Fatalf("expected no error but received one: %v", err)
+		}
+
+		if got != want {
+			t.Errorf("want %q but got %q", want, got)
+		}
+	})
+
+	t.Run("timeout after 10 seconds", func(t *testing.T) {
+		fastServer := mockServer(11 * time.Second)
+		slowServer := mockServer(12 * time.Second)
+
+		defer fastServer.Close()
+		defer slowServer.Close()
+
+		_, err := Racer(slowServer.URL, fastServer.URL)
+
+		if err == nil {
+			t.Fatal("expected one error but received none")
+		}
+	})
 }
