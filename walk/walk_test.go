@@ -95,14 +95,6 @@ func TestWalk(t *testing.T) {
 			},
 			[]string{"London", "Reyjavik"},
 		},
-		{
-			"map",
-			map[string]string{
-				"Cow":   "Moo",
-				"Sheep": "Baa",
-			},
-			[]string{"Moo", "Baa"},
-		},
 	}
 
 	for _, test := range cases {
@@ -117,4 +109,23 @@ func TestWalk(t *testing.T) {
 			}
 		})
 	}
+
+	t.Run("maps", func(t *testing.T) {
+		want := []string{"Moo", "Baa"}
+		m := map[string]string{
+			"Cow":   "Moo",
+			"Sheep": "Baa",
+		}
+
+		var got []string
+		walk(m, func(input string) {
+			got = append(got, input)
+		})
+
+		for _, v := range want {
+			if !slices.Contains(got, v) {
+				t.Errorf("missing %q", v)
+			}
+		}
+	})
 }
