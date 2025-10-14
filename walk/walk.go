@@ -10,7 +10,7 @@ func walk(x any, fn func(string)) {
 	// iterates over each item and call walk recursively, instead of having to see values assigned to variables, and
 	// only know their purpose at the end, your eyes need to go up and down.
 	switch val.Kind() {
-	case reflect.Slice:
+	case reflect.Slice, reflect.Array:
 		for i := range val.Len() {
 			item := val.Index(i)
 			walk(item.Interface(), fn)
