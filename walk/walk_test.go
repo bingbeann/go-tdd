@@ -128,4 +128,27 @@ func TestWalk(t *testing.T) {
 			}
 		}
 	})
+
+	t.Run("channel", func(t *testing.T) {
+		profileChan := make(chan Profile)
+
+		go func() {
+			profileChan <- Profile{33, "Berlin"}
+			profileChan <- Profile{34, "Katowice"}
+			close(profileChan)
+		}()
+
+		want := []string{"Berlin", "Katowice"}
+
+		var got []string
+		walk(profileChan, func(s string) {
+			got = append(got, s)
+		})
+
+		for _, v := range want {
+			if !slices.Contains(got, v) {
+				t.Errorf("missing %q", v)
+			}
+		}
+	})
 }

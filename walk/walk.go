@@ -24,6 +24,14 @@ func walk(x any, fn func(string)) {
 		for _, k := range val.MapKeys() {
 			walk(val.MapIndex(k).Interface(), fn)
 		}
+	case reflect.Chan:
+		for {
+			if v, ok := val.Recv(); ok {
+				walk(v.Interface(), fn)
+			} else {
+				break
+			}
+		}
 	case reflect.String:
 		fn(val.String())
 	}
