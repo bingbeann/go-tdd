@@ -20,6 +20,10 @@ func walk(x any, fn func(string)) {
 			field := val.Field(i)
 			walk(field.Interface(), fn)
 		}
+	case reflect.Map:
+		for _, k := range val.MapKeys() {
+			walk(val.MapIndex(k).Interface(), fn)
+		}
 	case reflect.String:
 		fn(val.String())
 	}
