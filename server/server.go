@@ -17,6 +17,8 @@ func Server(store Store) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
-		fmt.Fprint(w, resp)
+		if _, err = fmt.Fprint(w, resp); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	}
 }
