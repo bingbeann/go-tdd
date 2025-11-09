@@ -13,13 +13,21 @@ type SpyStore struct {
 	cancelled bool
 }
 
-func (s *SpyStore) Fetch() string {
-	time.Sleep(100 * time.Millisecond)
-	return s.response
-}
+func (s *SpyStore) Fetch(ctx context.Context) (string, error) {
+	data := make(chan string, 1)
 
-func (s *SpyStore) Cancel() {
-	s.cancelled = true
+	go func() {
+		time.Sleep(100 * time.Millisecond)
+		data <- s.response
+	}()
+
+	select {
+	case d := <-data:
+		return d, nil
+	case <-ctx.Done():
+		s.cancelled = true
+		return "", ctx.Err()
+	}
 }
 
 func TestServer(t *testing.T) {
